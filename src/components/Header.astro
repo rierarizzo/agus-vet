@@ -1,0 +1,32 @@
+---
+const navItems = [
+  { id: 'home', label: 'Inicio' },
+  { id: 'services', label: 'Servicios' },
+  { id: 'about', label: 'Nosotros' },
+  { id: 'contact', label: 'Contacto' },
+]
+---
+
+<header class="header" id="header">
+  <div class="logo" id="logo" title="¡Click 3 veces!">
+    <span class="logo-icon">🐾</span>
+    <span class="logo-text">Agus Vet</span>
+  </div>
+  <button
+    class="hamburger"
+    id="hamburger"
+    aria-label="Menú"
+    aria-expanded="false"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <nav class="nav" id="nav">
+    {navItems.map(item => (
+      <a href={`#${item.id}`} data-section={item.id}>
+        {item.label}
+      </a>
+    ))}
+  </nav>
+</header>

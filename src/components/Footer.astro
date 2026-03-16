@@ -1,0 +1,18 @@
+---
+import { socialLinks } from '../data'
+---
+
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-logo">
+      <span class="logo-icon">🐾</span>
+      <span>Agus Vet</span>
+    </div>
+    <p>&copy; {new Date().getFullYear()} Agus Vet. Todos los derechos reservados.</p>
+    <div class="footer-social">
+      {socialLinks.map(social => (
+        <span role="img" aria-label={social.label}>{social.emoji}</span>
+      ))}
+    </div>
+  </div>
+</footer>

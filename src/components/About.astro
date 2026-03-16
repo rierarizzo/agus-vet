@@ -1,0 +1,42 @@
+---
+import { testimonials } from '../data'
+---
+
+<section class="section about" id="about">
+  <h2>Sobre Nosotros</h2>
+  <div class="about-content">
+    <div class="about-text">
+      <p>En <strong>Agus Vet</strong>, creemos que cada mascota merece la mejor atención posible. Desde nuestra fundación en 2010, nos hemos comprometido a proporcionar servicios veterinarios de excelencia.</p>
+      <p>Nuestro equipo está formado por veterinarios altamente capacitados y apasionados por el bienestar animal. Constantemente actualizamos nuestros conocimientos y técnicas para ofrecer los mejores tratamientos.</p>
+      <p>Nos especializamos en crear un ambiente cálido y confiable donde tanto tú como tu mascota se sientan cómodos y seguros.</p>
+    </div>
+    <div class="about-features">
+      <div class="feature">
+        <span class="feature-icon">✅</span>
+        <span>Equipamiento moderno</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">✅</span>
+        <span>Personal capacitado</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">✅</span>
+        <span>Atención personalizada</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">✅</span>
+        <span>Precios accesibles</span>
+      </div>
+    </div>
+  </div>
+  <h3>Lo que dicen nuestros clientes</h3>
+  <div class="testimonials-grid">
+    {testimonials.map(t => (
+      <div class="testimonial-card">
+        <p class="testimonial-text">"{t.text}"</p>
+        <p class="testimonial-author">- {t.name}</p>
+        <p class="testimonial-pet">{t.pet}</p>
+      </div>
+    ))}
+  </div>
+</section>

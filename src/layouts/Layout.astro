@@ -1,0 +1,46 @@
+---
+interface Props {
+  title: string
+  description?: string
+}
+
+const { title, description = 'Veterinaria Agus Vet - Más de 15 años de experiencia cuidando a tus mascotas. Servicios: consultas médicas, vacunación, cirugías, estética canina, laboratorio y emergencias 24/7.' } = Astro.props
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content="veterinaria, mascota, perro, gato, consulta veterinaria, vacunación, cirugía, emergencia veterinary, Agus Vet" />
+    <meta name="author" content="Agus Vet" />
+    <meta name="robots" content="index, follow" />
+
+    <meta property="og:title" content="Agus Vet - Veterinaria Cuidado Animal" />
+    <meta property="og:description" content="Más de 15 años de experiencia proporcionando atención médica de calidad para tus mascotas." />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_MX" />
+    <meta property="og:site_name" content="Agus Vet" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Agus Vet - Veterinaria Cuidado Animal" />
+    <meta name="twitter:description" content="Más de 15 años de experiencia cuidando a tus mascotas. ¡Visítanos!" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="app">
+      <slot />
+    </div>
+    <script src="../scripts/main.js"></script>
+  </body>
+</html>
+
+<style is:global>
+  @import '../styles/global.css';
+</style>

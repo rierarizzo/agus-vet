@@ -1,0 +1,23 @@
+---
+const stats = [
+  { number: '15+', label: 'Años de experiencia' },
+  { number: '10K+', label: 'Mascotas atendidas' },
+  { number: '98%', label: 'Clientes satisfechos' },
+]
+---
+
+<section class="hero" id="home">
+  <div class="hero-content">
+    <h1>Cuidamos a tu mejor amigo como merecen</h1>
+    <p>Veterinaria con más de 15 años de experiencia proporcionando atención médica de calidad para tus mascotas</p>
+    <a href="#contact" class="cta-button">Agenda tu cita</a>
+  </div>
+  <div class="hero-stats">
+    {stats.map(stat => (
+      <div class="stat">
+        <span class="stat-number">{stat.number}</span>
+        <span class="stat-label">{stat.label}</span>
+      </div>
+    ))}
+  </div>
+</section>

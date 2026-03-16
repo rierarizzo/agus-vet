@@ -1,0 +1,17 @@
+---
+import { services } from '../data'
+---
+
+<section class="section services" id="services">
+  <h2>Nuestros Servicios</h2>
+  <p class="section-subtitle">Ofrecemos atención integral para todas las necesidades de tu mascota</p>
+  <div class="services-grid">
+    {services.map(service => (
+      <div class="service-card">
+        <span class="service-icon">{service.icon}</span>
+        <h3>{service.title}</h3>
+        <p>{service.description}</p>
+      </div>
+    ))}
+  </div>
+</section>
