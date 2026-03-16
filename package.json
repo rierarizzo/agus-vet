@@ -1,5 +1,5 @@
 {
-  "name": "vca",
+  "name": "agus-vet",
   "type": "module",
   "scripts": {
     "dev": "astro dev",
