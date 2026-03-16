@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { SERVICIOS, TESTIMONIOS, CONTACTO_INFO, SOCIAL_LINKS } from './constants'
+import { SERVICES, TESTIMONIALS, CONTACT_INFO, SOCIAL_LINKS } from './constants'
 
 function App() {
   const [logoClickCount, setLogoClickCount] = useState(0)
@@ -9,9 +9,8 @@ function App() {
   const [scrolled, setScrolled] = useState(false)
   const [formLoading, setFormLoading] = useState(false)
   const [formErrors, setFormErrors] = useState({})
-  const [activeSection, setActiveSection] = useState('inicio')
+  const [activeSection, setActiveSection] = useState('home')
 
-  // Detectar scroll
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20)
@@ -20,9 +19,8 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Detectar sección activa con Intersection Observer
   useEffect(() => {
-    const sections = ['inicio', 'servicios', 'nosotros', 'contacto']
+    const sections = ['home', 'services', 'about', 'contact']
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -42,7 +40,6 @@ function App() {
     return () => observer.disconnect()
   }, [])
 
-  // Scroll suave a la sección
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId)
     if (element) {
@@ -61,26 +58,25 @@ function App() {
     }
   }
 
-  // Validar formulario
   const validateForm = (data) => {
     const errors = {}
-    if (!data.nombre.trim()) errors.nombre = 'El nombre es requerido'
+    if (!data.name.trim()) errors.name = 'El nombre es requerido'
     if (!data.email.trim()) {
       errors.email = 'El email es requerido'
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
       errors.email = 'Ingresa un email válido'
     }
-    if (!data.mensaje.trim()) errors.mensaje = 'El mensaje es requerido'
+    if (!data.message.trim()) errors.message = 'El mensaje es requerido'
     return errors
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
     const formData = {
-      nombre: e.target.nombre.value,
+      name: e.target.name.value,
       email: e.target.email.value,
-      telefono: e.target.telefono.value,
-      mensaje: e.target.mensaje.value,
+      phone: e.target.phone.value,
+      message: e.target.message.value,
     }
     const errors = validateForm(formData)
     if (Object.keys(errors).length > 0) {
@@ -89,7 +85,6 @@ function App() {
     }
     setFormErrors({})
     setFormLoading(true)
-    // Simular envío
     setTimeout(() => {
       setFormLoading(false)
       setFormSubmitted(true)
@@ -98,14 +93,12 @@ function App() {
 
   return (
     <div className="app">
-      {/* Secret message toast */}
       {showSecret && (
         <div className="secret-toast">
           ¡Miau! 🐱 ¡Gracias por visitarnos! Tu mascota te lo agradecerá
         </div>
       )}
 
-      {/* Header */}
       <header className={`header ${scrolled ? 'scrolled' : ''}`}>
         <div className="logo" onClick={handleLogoClick} title="¡Click 3 veces!">
           <span className="logo-icon">🐾</span>
@@ -121,19 +114,18 @@ function App() {
           <span></span>
         </button>
         <nav className={`nav ${mobileMenuOpen ? 'mobile-open' : ''}`}>
-          <button onClick={() => scrollToSection('inicio')} aria-current={activeSection === 'inicio' ? 'true' : undefined}>Inicio</button>
-          <button onClick={() => scrollToSection('servicios')} aria-current={activeSection === 'servicios' ? 'true' : undefined}>Servicios</button>
-          <button onClick={() => scrollToSection('nosotros')} aria-current={activeSection === 'nosotros' ? 'true' : undefined}>Nosotros</button>
-          <button onClick={() => scrollToSection('contacto')} aria-current={activeSection === 'contacto' ? 'true' : undefined}>Contacto</button>
+          <button onClick={() => scrollToSection('home')} aria-current={activeSection === 'home' ? 'true' : undefined}>Inicio</button>
+          <button onClick={() => scrollToSection('services')} aria-current={activeSection === 'services' ? 'true' : undefined}>Servicios</button>
+          <button onClick={() => scrollToSection('about')} aria-current={activeSection === 'about' ? 'true' : undefined}>Nosotros</button>
+          <button onClick={() => scrollToSection('contact')} aria-current={activeSection === 'contact' ? 'true' : undefined}>Contacto</button>
         </nav>
       </header>
 
-      {/* Hero Section */}
-      <section className="hero" id="inicio">
+      <section className="hero" id="home">
         <div className="hero-content">
           <h1>Cuidamos a tu mejor amigo como merecen</h1>
           <p>Veterinaria con más de 15 años de experiencia proporcionando atención médica de calidad para tus mascotas</p>
-          <button className="cta-button" onClick={() => scrollToSection('contacto')}>Agenda tu cita</button>
+          <button className="cta-button" onClick={() => scrollToSection('contact')}>Agenda tu cita</button>
         </div>
         <div className="hero-stats">
           <div className="stat">
@@ -151,31 +143,29 @@ function App() {
         </div>
       </section>
 
-      {/* Servicios Section */}
-      <section className="section servicios" id="servicios">
+      <section className="section services" id="services">
         <h2>Nuestros Servicios</h2>
         <p className="section-subtitle">Ofrecemos atención integral para todas las necesidades de tu mascota</p>
-        <div className="servicios-grid">
-          {SERVICIOS.map((servicio, index) => (
-            <div className="servicio-card" key={index}>
-              <span className="servicio-icon">{servicio.icono}</span>
-              <h3>{servicio.titulo}</h3>
-              <p>{servicio.descripcion}</p>
+        <div className="services-grid">
+          {SERVICES.map((service, index) => (
+            <div className="service-card" key={index}>
+              <span className="service-icon">{service.icon}</span>
+              <h3>{service.title}</h3>
+              <p>{service.description}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Nosotros Section */}
-      <section className="section nosotros" id="nosotros">
+      <section className="section about" id="about">
         <h2>Sobre Nosotros</h2>
-        <div className="nosotros-content">
-          <div className="nosotros-text">
+        <div className="about-content">
+          <div className="about-text">
             <p>En <strong>Agus Vet</strong>, creemos que cada mascota merece la mejor atención posible. Desde nuestra fundación en 2010, nos hemos comprometido a proporcionar servicios veterinarios de excelencia.</p>
             <p>Nuestro equipo está formado por veterinarios altamente capacitados y apasionados por el bienestar animal. Constantemente actualizamos nuestros conocimientos y técnicas para ofrecer los mejores tratamientos.</p>
             <p>Nos especializamos en crear un ambiente cálido y confiable donde tanto tú como tu mascota se sientan cómodos y seguros.</p>
           </div>
-          <div className="nosotros-features">
+          <div className="about-features">
             <div className="feature">
               <span className="feature-icon">✅</span>
               <span>Equipamiento moderno</span>
@@ -195,50 +185,49 @@ function App() {
           </div>
         </div>
         <h3>Lo que dicen nuestros clientes</h3>
-        <div className="testimonios-grid">
-          {TESTIMONIOS.map((testimonio, index) => (
-            <div className="testimonio-card" key={index}>
-              <p className="testimonio-texto">"{testimonio.texto}"</p>
-              <p className="testimonio-autor">- {testimonio.nombre}</p>
-              <p className="testimonio-mascota">{testimonio.mascota}</p>
+        <div className="testimonials-grid">
+          {TESTIMONIALS.map((testimonial, index) => (
+            <div className="testimonial-card" key={index}>
+              <p className="testimonial-text">"{testimonial.text}"</p>
+              <p className="testimonial-author">- {testimonial.name}</p>
+              <p className="testimonial-pet">{testimonial.pet}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Contacto Section */}
-      <section className="section contacto" id="contacto">
+      <section className="section contact" id="contact">
         <h2>Contáctanos</h2>
         <p className="section-subtitle">Estamos aquí para ayudarte. ¡Escríbenos o visítanos!</p>
-        <div className="contacto-grid">
-          <div className="contacto-info">
+        <div className="contact-grid">
+          <div className="contact-info">
             <div className="info-item">
               <span className="info-icon">📍</span>
               <div>
                 <h4>Dirección</h4>
-                <p>{CONTACTO_INFO.direccion}</p>
+                <p>{CONTACT_INFO.address}</p>
               </div>
             </div>
             <div className="info-item">
               <span className="info-icon">📞</span>
               <div>
                 <h4>Teléfono</h4>
-                <p>{CONTACTO_INFO.telefono}</p>
+                <p>{CONTACT_INFO.phone}</p>
               </div>
             </div>
             <div className="info-item">
               <span className="info-icon">✉️</span>
               <div>
                 <h4>Email</h4>
-                <p>{CONTACTO_INFO.email}</p>
+                <p>{CONTACT_INFO.email}</p>
               </div>
             </div>
             <div className="info-item">
               <span className="info-icon">🕐</span>
               <div>
                 <h4>Horario</h4>
-                <p>{CONTACTO_INFO.horario}</p>
-                <p>{CONTACTO_INFO.horarioDom}</p>
+                <p>{CONTACT_INFO.hours}</p>
+                <p>{CONTACT_INFO.sundayHours}</p>
               </div>
             </div>
           </div>
@@ -250,18 +239,18 @@ function App() {
               <button className="submit-button" onClick={() => setFormSubmitted(false)}>Enviar otro mensaje</button>
             </div>
           ) : (
-            <form className="contacto-form" onSubmit={handleSubmit}>
-              <label htmlFor="nombre">Nombre</label>
-              <input type="text" id="nombre" placeholder="Tu nombre" className={formErrors.nombre ? 'error' : ''} />
-              {formErrors.nombre && <span className="error-message">{formErrors.nombre}</span>}
+            <form className="contact-form" onSubmit={handleSubmit}>
+              <label htmlFor="name">Nombre</label>
+              <input type="text" id="name" name="name" placeholder="Tu nombre" className={formErrors.name ? 'error' : ''} />
+              {formErrors.name && <span className="error-message">{formErrors.name}</span>}
               <label htmlFor="email">Email</label>
-              <input type="email" id="email" placeholder="Tu email" className={formErrors.email ? 'error' : ''} />
+              <input type="email" id="email" name="email" placeholder="Tu email" className={formErrors.email ? 'error' : ''} />
               {formErrors.email && <span className="error-message">{formErrors.email}</span>}
-              <label htmlFor="telefono">Teléfono</label>
-              <input type="tel" id="telefono" placeholder="Tu teléfono" />
-              <label htmlFor="mensaje">Mensaje</label>
-              <textarea id="mensaje" placeholder="¿En qué podemos ayudarte?" rows="5" className={formErrors.mensaje ? 'error' : ''}></textarea>
-              {formErrors.mensaje && <span className="error-message">{formErrors.mensaje}</span>}
+              <label htmlFor="phone">Teléfono</label>
+              <input type="tel" id="phone" name="phone" placeholder="Tu teléfono" />
+              <label htmlFor="message">Mensaje</label>
+              <textarea id="message" name="message" placeholder="¿En qué podemos ayudarte?" rows="5" className={formErrors.message ? 'error' : ''}></textarea>
+              {formErrors.message && <span className="error-message">{formErrors.message}</span>}
               <button type="submit" className={`submit-button ${formLoading ? 'loading' : ''}`} disabled={formLoading}>
                 {formLoading ? 'Enviando...' : 'Enviar mensaje'}
               </button>
@@ -270,7 +259,6 @@ function App() {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="footer">
         <div className="footer-content">
           <div className="footer-logo">
@@ -280,7 +268,7 @@ function App() {
           <p>&copy; 2026 Agus Vet. Todos los derechos reservados.</p>
           <div className="footer-social">
             {SOCIAL_LINKS.map((social) => (
-              <span role="img" aria-label={social.label} key={social.red}>{social.emoji}</span>
+              <span role="img" aria-label={social.label} key={social.network}>{social.emoji}</span>
             ))}
           </div>
         </div>

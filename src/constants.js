@@ -1,64 +1,64 @@
-export const SERVICIOS = [
+export const SERVICES = [
   {
-    titulo: 'Consultas Médicas',
-    descripcion: 'Atención integral para tu mascota con nuestros veterinarios especializados',
-    icono: '🩺'
+    title: 'Consultas Médicas',
+    description: 'Atención integral para tu mascota con nuestros veterinarios especializados',
+    icon: '🩺'
   },
   {
-    titulo: 'Vacunación',
-    descripcion: 'Programas de vacunación para perros, gatos y otras mascotas',
-    icono: '💉'
+    title: 'Vacunación',
+    description: 'Programas de vacunación para perros, gatos y otras mascotas',
+    icon: '💉'
   },
   {
-    titulo: 'Cirugías',
-    descripcion: 'Procedimientos quirúrgicos con tecnología de punta',
-    icono: '🏥'
+    title: 'Cirugías',
+    description: 'Procedimientos quirúrgicos con tecnología de punta',
+    icon: '🏥'
   },
   {
-    titulo: 'Estética Canina',
-    descripcion: 'Baño, corte y cuidado estético profesional',
-    icono: '✂️'
+    title: 'Estética Canina',
+    description: 'Baño, corte y cuidado estético profesional',
+    icon: '✂️'
   },
   {
-    titulo: 'Laboratorio',
-    descripcion: 'Análisis clínicos y diagnósticos precisos',
-    icono: '🔬'
+    title: 'Laboratorio',
+    description: 'Análisis clínicos y diagnósticos precisos',
+    icon: '🔬'
   },
   {
-    titulo: 'Emergencias 24/7',
-    descripcion: 'Atención de emergencias veterinarias a cualquier hora',
-    icono: '🚨'
+    title: 'Emergencias 24/7',
+    description: 'Atención de emergencias veterinarias a cualquier hora',
+    icon: '🚨'
   }
 ]
 
-export const TESTIMONIOS = [
+export const TESTIMONIALS = [
   {
-    nombre: 'María García',
-    mascota: 'Max (Perro)',
-    texto: 'El mejor cuidado que han tenido mis mascotas. El equipo es muy profesional y cariñoso.'
+    name: 'María García',
+    pet: 'Max (Perro)',
+    text: 'El mejor cuidado que han tenido mis mascotas. El equipo es muy profesional y cariñoso.'
   },
   {
-    nombre: 'Carlos López',
-    mascota: 'Luna (Gata)',
-    texto: 'Desde que descubrí Agus Vet, la salud de mi gata ha mejorado mucho. Totalmente recomendado.'
+    name: 'Carlos López',
+    pet: 'Luna (Gata)',
+    text: 'Desde que descubrí Agus Vet, la salud de mi gata ha mejorado mucho. Totalmente recomendado.'
   },
   {
-    nombre: 'Ana Rodríguez',
-    mascota: 'Buddy (Perro)',
-    texto: 'Excelente atención veterinaria. Siempre dispuestos a ayudar y explicar cada procedimiento.'
+    name: 'Ana Rodríguez',
+    pet: 'Buddy (Perro)',
+    text: 'Excelente atención veterinaria. Siempre dispuestos a ayudar y explicar cada procedimiento.'
   }
 ]
 
-export const CONTACTO_INFO = {
-  direccion: 'Av. Principal 123, Ciudad',
-  telefono: '(555) 123-4567',
+export const CONTACT_INFO = {
+  address: 'Av. Principal 123, Ciudad',
+  phone: '(555) 123-4567',
   email: 'contacto@agusvet.com',
-  horario: 'Lun-Sáb: 8am - 8pm',
-  horarioDom: 'Dom: 9am - 2pm (solo emergencias)'
+  hours: 'Lun-Sáb: 8am - 8pm',
+  sundayHours: 'Dom: 9am - 2pm (solo emergencias)'
 }
 
 export const SOCIAL_LINKS = [
-  { red: 'facebook', emoji: '📘', label: 'Facebook de Agus Vet' },
-  { red: 'instagram', emoji: '📷', label: 'Instagram de Agus Vet' },
-  { red: 'twitter', emoji: '🐦', label: 'Twitter de Agus Vet' }
+  { network: 'facebook', emoji: '📘', label: 'Facebook de Agus Vet' },
+  { network: 'instagram', emoji: '📷', label: 'Instagram de Agus Vet' },
+  { network: 'twitter', emoji: '🐦', label: 'Twitter de Agus Vet' }
 ]
