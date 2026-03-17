@@ -1,5 +1,14 @@
 ---
 import { socialLinks } from '../data'
+import FacebookIcon from './icons/FacebookIcon.astro'
+import InstagramIcon from './icons/InstagramIcon.astro'
+import TwitterIcon from './icons/TwitterIcon.astro'
+
+const iconMap = {
+  facebook: FacebookIcon,
+  instagram: InstagramIcon,
+  twitter: TwitterIcon,
+}
 ---
 
 <footer class="footer">
@@ -10,9 +19,14 @@ import { socialLinks } from '../data'
     </div>
     <p>&copy; {new Date().getFullYear()} Agus Vet. Todos los derechos reservados.</p>
     <div class="footer-social">
-      {socialLinks.map(social => (
-        <span role="img" aria-label={social.label}>{social.emoji}</span>
-      ))}
+      {socialLinks.map(social => {
+        const Icon = iconMap[social.network]
+        return (
+          <span aria-label={social.label}>
+            <Icon />
+          </span>
+        )
+      })}
     </div>
   </div>
 </footer>
