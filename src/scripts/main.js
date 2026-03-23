@@ -1,26 +1,10 @@
 const logo = document.getElementById('logo')
-const secretToast = document.getElementById('secret-toast')
 const hamburger = document.getElementById('hamburger')
 const nav = document.getElementById('nav')
 const header = document.getElementById('header')
 const form = document.getElementById('contact-form')
 const formSuccess = document.getElementById('form-success')
 const resetBtn = document.getElementById('reset-form')
-
-let logoClickCount = 0
-
-if (logo) {
-  logo.addEventListener('click', () => {
-    logoClickCount++
-    if (logoClickCount === 3) {
-      if (secretToast) secretToast.hidden = false
-      setTimeout(() => {
-        if (secretToast) secretToast.hidden = true
-      }, 3000)
-      logoClickCount = 0
-    }
-  })
-}
 
 if (hamburger && nav) {
   hamburger.addEventListener('click', () => {
@@ -42,19 +26,32 @@ if (header) {
 
 const sections = ['home', 'services', 'about', 'contact']
 const navLinks = document.querySelectorAll('.nav a')
+let isManualScrolling = false
+let manualScrollTimeout
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      navLinks.forEach(link => {
-        link.removeAttribute('aria-current')
-        if (link.getAttribute('data-section') === entry.target.id) {
-          link.setAttribute('aria-current', 'true')
-        }
-      })
+function setActiveLink(sectionId) {
+  if (isManualScrolling && manualScrollTimeout) return
+  
+  navLinks.forEach(link => {
+    link.removeAttribute('aria-current')
+    if (link.getAttribute('data-section') === sectionId) {
+      link.setAttribute('aria-current', 'true')
     }
   })
-}, { threshold: 0.3, rootMargin: '-70px 0px -50% 0px' })
+}
+
+const observer = new IntersectionObserver((entries) => {
+  if (isManualScrolling) return
+
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      setActiveLink(entry.target.id)
+    }
+  })
+}, { 
+  threshold: 0.2, 
+  rootMargin: '-80px 0px -50% 0px' 
+})
 
 sections.forEach(id => {
   const el = document.getElementById(id)
@@ -66,63 +63,102 @@ navLinks.forEach(link => {
     e.preventDefault()
     const targetId = link.getAttribute('href').slice(1)
     const target = document.getElementById(targetId)
-    target?.scrollIntoView({ behavior: 'smooth' })
+    
+    if (target) {
+      isManualScrolling = true
+      if (manualScrollTimeout) clearTimeout(manualScrollTimeout)
+      
+      navLinks.forEach(l => l.removeAttribute('aria-current'))
+      link.setAttribute('aria-current', 'true')
+      
+      target.scrollIntoView({ behavior: 'smooth' })
+      
+      manualScrollTimeout = setTimeout(() => {
+        isManualScrolling = false
+        manualScrollTimeout = null
+      }, 1000)
+    }
+    
     if (nav) nav.classList.remove('mobile-open')
     if (hamburger) hamburger.classList.remove('active')
   })
 })
 
+window.addEventListener('scroll', () => {
+  if (isManualScrolling) return
+  
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 5) {
+    setActiveLink('contact')
+  }
+}, { passive: true })
+
 const nameError = document.getElementById('name-error')
 const emailError = document.getElementById('email-error')
 const messageError = document.getElementById('message-error')
+const formError = document.getElementById('form-error')
+const nameInput = document.getElementById('name')
+const emailInput = document.getElementById('email')
+const messageInput = document.getElementById('message')
+
+function validateField(input, errorElement, fieldName) {
+  const value = input?.value?.trim() || ''
+
+  input?.classList.remove('error', 'valid')
+  if (errorElement) errorElement.textContent = ''
+
+  if (!value) {
+    if (errorElement) errorElement.textContent = `El ${fieldName} es requerido`
+    input?.classList.add('error')
+    return false
+  }
+
+  if (fieldName === 'email' && input) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(value)) {
+      if (errorElement) errorElement.textContent = 'Ingresa un email válido'
+      input?.classList.add('error')
+      return false
+    }
+  }
+
+  input?.classList.add('valid')
+  return true
+}
 
 function validateForm() {
-  let isValid = true
+  const isNameValid = validateField(nameInput, nameError, 'nombre')
+  const isEmailValid = validateField(emailInput, emailError, 'email')
+  const isMessageValid = validateField(messageInput, messageError, 'mensaje')
 
-  const nameInput = document.getElementById('name')
-  const emailInput = document.getElementById('email')
-  const messageInput = document.getElementById('message')
-
-  if (nameError) nameError.textContent = ''
-  if (emailError) emailError.textContent = ''
-  if (messageError) messageError.textContent = ''
-
-  nameInput?.classList.remove('error')
-  emailInput?.classList.remove('error')
-  messageInput?.classList.remove('error')
-
-  const name = nameInput?.value?.trim() || ''
-  const email = emailInput?.value?.trim() || ''
-  const message = messageInput?.value?.trim() || ''
-
-  if (!name) {
-    if (nameError) nameError.textContent = 'El nombre es requerido'
-    nameInput?.classList.add('error')
-    isValid = false
-  }
-
-  if (!email) {
-    if (emailError) emailError.textContent = 'El email es requerido'
-    emailInput?.classList.add('error')
-    isValid = false
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    if (emailError) emailError.textContent = 'Ingresa un email válido'
-    emailInput?.classList.add('error')
-    isValid = false
-  }
-
-  if (!message) {
-    if (messageError) messageError.textContent = 'El mensaje es requerido'
-    messageInput?.classList.add('error')
-    isValid = false
-  }
-
-  return isValid
+  return isNameValid && isEmailValid && isMessageValid
 }
+
+nameInput?.addEventListener('blur', () => {
+  if (nameInput.value.trim()) {
+    validateField(nameInput, nameError, 'nombre')
+  }
+})
+
+emailInput?.addEventListener('blur', () => {
+  if (emailInput.value.trim()) {
+    validateField(emailInput, emailError, 'email')
+  }
+})
+
+messageInput?.addEventListener('blur', () => {
+  if (messageInput.value.trim()) {
+    validateField(messageInput, messageError, 'mensaje')
+  }
+})
 
 if (form) {
   form.addEventListener('submit', async (e) => {
     e.preventDefault()
+
+    if (formError) {
+      formError.textContent = ''
+      formError.classList.remove('visible')
+    }
 
     if (!validateForm()) return
 
@@ -133,17 +169,38 @@ if (form) {
       submitBtn.classList.add('loading')
     }
 
-    await new Promise(resolve => setTimeout(resolve, 1500))
+    try {
+      const formData = new FormData(form)
+      const response = await fetch('https://formspree.io/f/xpwzgkvb', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
 
-    form.hidden = true
-    if (formSuccess) formSuccess.hidden = false
+      if (!response.ok) {
+        throw new Error('Error en el envío')
+      }
 
-    form.reset()
+      form.hidden = true
+      if (formSuccess) formSuccess.hidden = false
 
-    if (submitBtn) {
-      submitBtn.disabled = false
-      submitBtn.textContent = 'Enviar mensaje'
-      submitBtn.classList.remove('loading')
+      form.reset()
+      document.querySelectorAll('.form-input').forEach(input => {
+        input.classList.remove('valid', 'error')
+      })
+    } catch (error) {
+      if (formError) {
+        formError.textContent = 'Hubo un error al enviar el mensaje. Por favor intenta de nuevo.'
+        formError.classList.add('visible')
+      }
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false
+        submitBtn.textContent = 'Enviar mensaje'
+        submitBtn.classList.remove('loading')
+      }
     }
   })
 }
@@ -152,5 +209,33 @@ if (resetBtn) {
   resetBtn.addEventListener('click', () => {
     if (formSuccess) formSuccess.hidden = true
     if (form) form.hidden = false
+    if (formError) {
+      formError.textContent = ''
+      formError.classList.remove('visible')
+    }
   })
+}
+
+const mapContainer = document.getElementById('map-container')
+
+if (mapContainer && typeof window.L !== 'undefined') {
+  const lat = parseFloat(mapContainer.dataset.lat)
+  const lng = parseFloat(mapContainer.dataset.lng)
+
+  const map = window.L.map('map-container', {
+    center: [lat, lng],
+    zoom: 15,
+    preferCanvas: true
+  })
+
+  window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map)
+
+  window.L.marker([lat, lng])
+    .addTo(map)
+    .bindPopup('<b>Agus Vet</b><br>¡Te esperamos!')
+    .openPopup()
+
+  setTimeout(() => map.invalidateSize(), 100)
 }

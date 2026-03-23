@@ -1,5 +1,6 @@
 ---
 import { contactInfo } from '../data'
+import { MapPin, Phone, Mail, Clock, PartyPopper } from '@lucide/astro'
 ---
 
 <section class="section contact" id="contact">
@@ -8,60 +9,62 @@ import { contactInfo } from '../data'
   <div class="contact-grid">
     <div class="contact-info">
       <div class="info-item">
-        <span class="info-icon">📍</span>
+        <MapPin class="info-icon" size={24} />
         <div>
           <h4>Dirección</h4>
           <p>{contactInfo.address}</p>
         </div>
       </div>
       <div class="info-item">
-        <span class="info-icon">📞</span>
+        <Phone class="info-icon" size={24} />
         <div>
           <h4>Teléfono</h4>
           <p>{contactInfo.phone}</p>
         </div>
       </div>
       <div class="info-item">
-        <span class="info-icon">✉️</span>
+        <Mail class="info-icon" size={24} />
         <div>
           <h4>Email</h4>
           <p>{contactInfo.email}</p>
         </div>
       </div>
       <div class="info-item">
-        <span class="info-icon">🕐</span>
+        <Clock class="info-icon" size={24} />
         <div>
           <h4>Horario</h4>
-          <p>{contactInfo.hours}</p>
-          <p>{contactInfo.sundayHours}</p>
+          <p>{contactInfo.hours} · {contactInfo.sundayHours}</p>
         </div>
       </div>
     </div>
 
-    <form class="contact-form" id="contact-form">
+    <form class="contact-form" id="contact-form" action="https://formspree.io/f/xpwzgkvb" method="POST">
       <label for="name">Nombre</label>
-      <input type="text" id="name" name="name" placeholder="Tu nombre" class="form-input" />
-      <span class="error-message" id="name-error"></span>
+      <input type="text" id="name" name="name" placeholder="Tu nombre" class="form-input" required />
+      <span class="error-message" id="name-error" role="alert"></span>
 
       <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="Tu email" class="form-input" />
-      <span class="error-message" id="email-error"></span>
+      <input type="email" id="email" name="email" placeholder="tu@email.com" class="form-input" required />
+      <span class="error-message" id="email-error" role="alert"></span>
 
       <label for="phone">Teléfono</label>
       <input type="tel" id="phone" name="phone" placeholder="Tu teléfono" class="form-input" />
 
       <label for="message">Mensaje</label>
-      <textarea id="message" name="message" placeholder="¿En qué podemos ayudarte?" rows="5" class="form-input"></textarea>
-      <span class="error-message" id="message-error"></span>
+      <textarea id="message" name="message" placeholder="¿En qué podemos ayudarte?" rows="5" class="form-input" required></textarea>
+      <span class="error-message" id="message-error" role="alert"></span>
+
+      <p class="form-error" id="form-error" role="alert" aria-live="polite"></p>
 
       <button type="submit" class="submit-button" id="submit-btn">Enviar mensaje</button>
     </form>
 
-    <div class="form-success" id="form-success" hidden style="display: none;">
-      <span class="success-icon">🎉</span>
+    <div class="form-success" id="form-success" hidden>
+      <span class="success-icon" aria-hidden="true"><PartyPopper size={48} /></span>
       <h3>¡Mensaje enviado!</h3>
       <p>Gracias por contactarnos. Nos pondremos en contacto contigo muy pronto.</p>
       <button class="submit-button" id="reset-form">Enviar otro mensaje</button>
     </div>
   </div>
+  <div class="map-container" id="map-container" data-lat={contactInfo.lat} data-lng={contactInfo.lng}></div>
 </section>

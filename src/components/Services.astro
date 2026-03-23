@@ -1,17 +1,32 @@
 ---
 import { services } from '../data'
+import { Stethoscope, Syringe, Hospital, Scissors, Microscope, TriangleAlert } from '@lucide/astro'
+
+const iconComponents: Record<string, typeof Stethoscope> = {
+  Stethoscope,
+  Syringe,
+  Hospital,
+  Scissors,
+  Microscope,
+  TriangleAlert
+}
 ---
 
 <section class="section services" id="services">
   <h2>Nuestros Servicios</h2>
   <p class="section-subtitle">Ofrecemos atención integral para todas las necesidades de tu mascota</p>
   <div class="services-grid">
-    {services.map(service => (
-      <div class="service-card">
-        <span class="service-icon">{service.icon}</span>
-        <h3>{service.title}</h3>
-        <p>{service.description}</p>
-      </div>
-    ))}
+    {services.map(service => {
+      const IconComponent = iconComponents[service.iconName]
+      return (
+        <div class="service-card">
+          <span class="service-icon">
+            {IconComponent && <IconComponent size={32} />}
+          </span>
+          <h3>{service.title}</h3>
+          <p>{service.description}</p>
+        </div>
+      )
+    })}
   </div>
 </section>

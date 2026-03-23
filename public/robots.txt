@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow:
 
-Sitemap: https://agusvet.com/sitemap.xml
+Sitemap: https://agusvet.com/sitemap-index.xml
+Crawl-delay: 1
